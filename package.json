@@ -1,8 +1,8 @@
 {
-  "name": "awesome-nestjs-boilerplate",
+  "name": "fisgon-morboson",
   "version": "8.0.0",
-  "description": "Awesome NestJS Boilerplate, Typescript, Postgres, TypeORM",
-  "author": "Narek Hakobyan <narek.hakobyan.07@gmail.com>",
+  "description": "Based on Awesome NestJS Boilerplate, Typescript, Postgres, TypeORM",
+  "author": "Nicolás Andrade <nico@nmac.com.ar>",
   "private": true,
   "license": "MIT",
   "scripts": {
