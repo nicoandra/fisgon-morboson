@@ -17,6 +17,8 @@ import {
   initializeTransactionalContext,
   patchTypeORMRepositoryWithBaseRepository,
 } from 'typeorm-transactional-cls-hooked';
+import { join } from 'path';
+
 
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './filters/bad-request.filter';
@@ -41,12 +43,16 @@ export async function bootstrap(): Promise<NestExpressApplication> {
   app.use(
     rateLimit({
       windowMs: 15 * 60 * 1000, // 15 minutes
-      max: 100, // limit each IP to 100 requests per windowMs
+      max: 200, // limit each IP to 100 requests per windowMs
     }),
   );
   app.use(compression());
   app.use(morgan('combined'));
   app.enableVersioning();
+
+  app.useStaticAssets(join(__dirname, '..', 'public'));
+  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.setViewEngine('hbs');  
 
   const reflector = app.get(Reflector);
 

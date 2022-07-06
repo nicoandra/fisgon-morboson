@@ -17,10 +17,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
       args: Record<string, unknown>;
     };
 
-    message = await this.i18n.translate(message.key, {
-      lang: ctx.getRequest().i18nLang,
-      args: message.args,
-    });
+    try {
+        message = await this.i18n.translate(message.key, {
+        lang: ctx.getRequest().i18nLang,
+        args: message.args,
+        });
+    } catch(e) {
+        console.error("Missing translation for key", message.key)
+    }
 
     response.status(statusCode).json({ statusCode, message });
   }

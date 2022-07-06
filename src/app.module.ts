@@ -14,6 +14,7 @@ import { PostModule } from './modules/post/post.module';
 import { UserModule } from './modules/user/user.module';
 import { ApiConfigService } from './shared/services/api-config.service';
 import { SharedModule } from './shared/shared.module';
+import { AppController } from './app.controller'
 
 @Module({
   imports: [
@@ -50,5 +51,6 @@ import { SharedModule } from './shared/shared.module';
       useClass: AllExceptionsFilter,
     },
   ],
+  controllers: [AppController]
 })
 export class AppModule {}
