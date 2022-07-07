@@ -8,5 +8,6 @@ COPY . .
 RUN npm run build
 
 FROM nginx:1.18-alpine
+RUN apk add npm
 COPY .docker/nginx.conf /etc/nginx/nginx.conf
 COPY --from=build-step /build/build /frontend/build

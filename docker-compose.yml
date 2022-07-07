@@ -1,11 +1,11 @@
 version: "3"
 services:
-  app:
+  be:
     env_file:
-      - .env
+      - ./be/.env
     restart: always
     build:
-      context: .
+      context: ./be/
       target: dev
     ports:
       - 3100:3000
@@ -13,8 +13,18 @@ services:
       - postgres
       - redis
     volumes:
-    - ./:/usr/src/app
+    - ./be:/usr/src/app
     - ./volumes/shots:/usr/src/app/public/shots
+
+  ui:
+    build:
+      context: ./ui/.
+      dockerfile: 'Dockerfile'
+    ports:
+      - 3180:80
+      - 3101:3000
+    volumes:
+      - ./ui:/frontend
 
   redis:
     image: "redis:alpine"
@@ -42,7 +52,7 @@ services:
     volumes:
       - ./volumes/data/postgres:/data/postgres
     env_file:
-      - .env
+      - ./be/.env
 
   pgadmin:
     links:
@@ -56,7 +66,7 @@ services:
     volumes:
       - ./volumes/data/pgadmin:/root/.pgadmin
     env_file:
-      - .env
+      - ./be/.env
 
 
   mosquitto:
