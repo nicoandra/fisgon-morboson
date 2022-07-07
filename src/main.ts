@@ -5,7 +5,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
-import { Transport } from '@nestjs/microservices';
+import {  Transport } from '@nestjs/microservices';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import compression from 'compression';
@@ -17,7 +17,7 @@ import {
   initializeTransactionalContext,
   patchTypeORMRepositoryWithBaseRepository,
 } from 'typeorm-transactional-cls-hooked';
-import { join } from 'path';
+import path from 'path';
 
 
 import { AppModule } from './app.module';
@@ -32,6 +32,7 @@ import { SharedModule } from './shared/shared.module';
 export async function bootstrap(): Promise<NestExpressApplication> {
   initializeTransactionalContext();
   patchTypeORMRepositoryWithBaseRepository();
+
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter(),
@@ -50,8 +51,8 @@ export async function bootstrap(): Promise<NestExpressApplication> {
   app.use(morgan('combined'));
   app.enableVersioning();
 
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  app.useStaticAssets(path.join(__dirname, '..', 'public'));
+  app.setBaseViewsDir(path.join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');  
 
   const reflector = app.get(Reflector);
@@ -74,25 +75,24 @@ export async function bootstrap(): Promise<NestExpressApplication> {
       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
       transform: true,
       dismissDefaultMessages: true,
+      forbidUnknownValues: true,
       exceptionFactory: (errors) => new UnprocessableEntityException(errors),
     }),
   );
 
   const configService = app.select(SharedModule).get(ApiConfigService);
 
-  // only start nats if it is enabled
-  if (configService.natsEnabled) {
-    const natsConfig = configService.natsConfig;
+    const mqttConfig = configService.mqttConfig;
     app.connectMicroservice({
-      transport: Transport.NATS,
-      options: {
-        url: `nats://${natsConfig.host}:${natsConfig.port}`,
-        queue: 'main_service',
-      },
+        transport: Transport.MQTT,
+        options: {
+        url: `mqtt://${mqttConfig.host}:${mqttConfig.port}`,
+        clientId: mqttConfig.clientId,
+        },
     });
 
     await app.startAllMicroservices();
-  }
+
 
   if (configService.documentationEnabled) {
     setupSwagger(app);

@@ -131,6 +131,16 @@ export class ApiConfigService {
     };
   }
 
+  get mqttConfig() {
+    return {
+        url: `mqtt://${this.getString('MQTT_HOST')}:${this.getString('MQTT_PORT')}`,
+      host: this.getString('MQTT_HOST'),
+      port: this.getNumber('MQTT_PORT'),
+      clientId: this.getString('MQTT_CLIENTID'),
+    };
+  }  
+
+
   get authConfig() {
     return {
       privateKey: this.getString('JWT_PRIVATE_KEY'),

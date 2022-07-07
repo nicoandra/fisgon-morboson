@@ -6,7 +6,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { I18nJsonParser, I18nModule } from 'nestjs-i18n';
 import path from 'path';
-
+import { MqttModule } from 'nest-mqtt';
 import { AllExceptionsFilter } from './filters/all-exceptions.filter';
 import { AuthModule } from './modules/auth/auth.module';
 import { HealthCheckerModule } from './modules/health-checker/health-checker.module';
@@ -14,7 +14,8 @@ import { PostModule } from './modules/post/post.module';
 import { UserModule } from './modules/user/user.module';
 import { ApiConfigService } from './shared/services/api-config.service';
 import { SharedModule } from './shared/shared.module';
-import { AppController } from './app.controller'
+import { AppController } from './app.controller';
+import { CamerasModule } from './cameras/cameras.module';
 
 @Module({
   imports: [
@@ -44,13 +45,22 @@ import { AppController } from './app.controller'
       inject: [ApiConfigService],
     }),
     HealthCheckerModule,
+    CamerasModule,
+    MqttModule.forRootAsync({
+        inject: [ApiConfigService], useFactory: (configService: ApiConfigService) => { 
+            const options = configService.mqttConfig;
+            return {
+                host: options.host, port: options.port
+            }
+
+    }}),
   ],
   providers: [
     {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter,
-    },
+    },      
   ],
-  controllers: [AppController]
+  controllers: [AppController,]
 })
 export class AppModule {}

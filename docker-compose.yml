@@ -14,6 +14,7 @@ services:
       - redis
     volumes:
     - ./:/usr/src/app
+    - ./volumes/shots:/usr/src/app/public/shots
 
   redis:
     image: "redis:alpine"
@@ -56,3 +57,17 @@ services:
       - ./volumes/data/pgadmin:/root/.pgadmin
     env_file:
       - .env
+
+
+  mosquitto:
+    image: ansi/mosquitto
+    restart: unless-stopped
+    ports:
+      - 1883:1883
+    entrypoint: /usr/local/sbin/mosquitto -c /etc/mosquitto/mosquitto.conf
+    volumes:
+      - ./volumes/etc/mosquitto:/etc/mosquitto:ro
+      - ./volumes/var/log/mosquitto:/var/log/mosquitto:rw
+      - ./volumes/var/lib/mosquitto/mosquitto.db:/var/lib/mosquitto/mosquitto.db:rw
+    environment:
+      - TZ=America/Montreal
