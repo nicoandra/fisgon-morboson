@@ -94,7 +94,7 @@ export class CamerasService {
 
     async getSingleShot(alias: string) {
         const photoPath = this.getShotPath(alias)
-        const photoDir = dirname(photoPath)
+        const photoDir = path.dirname(photoPath)
 
         await new Promise<void>((ok, ko) => {
             mkdir(photoDir, {recursive: true }, (err) => {
@@ -125,7 +125,7 @@ export class CamerasService {
         const now = new Date()
         const year = `${now.getUTCFullYear()}`
         const month = `0${now.getUTCMonth()+1}`.slice(-2)
-        const day = `0${now.getUTCDate()+1}`.slice(-2)
+        const day = `0${now.getUTCDate()}`.slice(-2)
         const hour = `0${now.getUTCHours()}`.slice(-2)
         const minute = `0${now.getUTCMinutes()}`.slice(-2)
         const seconds = `0${now.getUTCSeconds()}`.slice(-2)
