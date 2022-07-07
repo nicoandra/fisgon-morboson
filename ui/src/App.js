@@ -3,12 +3,15 @@ import { Container, Row, Col, Button, Collapse } from "react-bootstrap";
 import NavigationBar from "./components/NavigationBar";
 import Sidebar from "./components/Sidebar";
 import "./components/Sidebar.css"
+import { OpenAPIProvider } from 'react-openapi-client';
 
+const apiSpecUrl = process.env['REACT_APP_API_SERVER'] + 'documentation-json'
 
 const App = () => {
   const [sideBarIsOpen, setSideBarIsOpen] = useState(true);
 
   return (
+    <OpenAPIProvider definition={apiSpecUrl}>
     <div className="App">
       <nav>
         <NavigationBar />
@@ -37,6 +40,7 @@ const App = () => {
         </Container>
       </main>
     </div>
+    </OpenAPIProvider>
   );
 };
 
