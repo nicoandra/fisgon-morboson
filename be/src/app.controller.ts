@@ -1,7 +1,7 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { ApiExcludeController, ApiTags, ApiOkResponse } from '@nestjs/swagger';
 import { MqttService } from 'nest-mqtt';
-import { CamerasService } from './cameras/cameras.service'
+import { CamerasService } from './modules/cameras/cameras.service'
 
 @ApiTags('ui')
 @Controller()

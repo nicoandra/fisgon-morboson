@@ -8,20 +8,20 @@ import { I18nJsonParser, I18nModule } from 'nestjs-i18n';
 import path from 'path';
 import { MqttModule } from 'nest-mqtt';
 import { AllExceptionsFilter } from './filters/all-exceptions.filter';
-import { AuthModule } from './modules/auth/auth.module';
+// import { AuthModule } from './modules/auth/auth.module';
 import { HealthCheckerModule } from './modules/health-checker/health-checker.module';
-import { PostModule } from './modules/post/post.module';
-import { UserModule } from './modules/user/user.module';
+// import { PostModule } from './modules/post/post.module';
+// import { UserModule } from './modules/user/user.module';
 import { ApiConfigService } from './shared/services/api-config.service';
 import { SharedModule } from './shared/shared.module';
 import { AppController } from './app.controller';
-import { CamerasModule } from './cameras/cameras.module';
+import { CamerasModule } from './modules/cameras/cameras.module';
 
 @Module({
   imports: [
-    AuthModule,
-    UserModule,
-    PostModule,
+    // AuthModule,
+    // UserModule,
+    // PostModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',

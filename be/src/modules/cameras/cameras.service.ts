@@ -7,7 +7,7 @@ import path from 'path';
 import { MqttService } from 'nest-mqtt';
 import { mkdir, createWriteStream } from 'fs'
 import { AnnounceCameraNotificationDto} from './AnnounceCameraNotificationDto.dto'
-import {CameraConfigDto} from './CameraConfigDto.dto'
+import {CameraConfigDto} from './dto/camera-config.dto'
 
 @Injectable()
 export class CamerasService {
@@ -133,7 +133,7 @@ export class CamerasService {
 
     }
 
-    getStatus() : Record<string, any> {
+    getStatus() : Record<string, CameraConfigDto> {
         return cloneDeep(this.knownCameras)
     }
 }

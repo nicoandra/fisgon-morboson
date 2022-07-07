@@ -26,6 +26,13 @@ services:
     volumes:
       - ./ui:/frontend
 
+
+  build-client-api:
+    image: openapitools/openapi-generator-cli
+    volumes:
+      - ./ui/src:/target
+    command: ["generate", "-i", "http://be:3000/documentation-json", '-g', 'javascript', '-o', '/target']
+
   redis:
     image: "redis:alpine"
     ports:
