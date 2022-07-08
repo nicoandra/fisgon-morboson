@@ -3,7 +3,7 @@ import './boilerplate.polyfill';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
-import { TypeOrmModule } from '@nestjs/typeorm';
+// import { TypeOrmModule } from '@nestjs/typeorm';
 import { I18nJsonParser, I18nModule } from 'nestjs-i18n';
 import path from 'path';
 import { MqttModule } from 'nest-mqtt';
@@ -26,12 +26,12 @@ import { CamerasModule } from './modules/cameras/cameras.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    TypeOrmModule.forRootAsync({
+    /* TypeOrmModule.forRootAsync({
       imports: [SharedModule],
       useFactory: (configService: ApiConfigService) =>
         configService.postgresConfig,
       inject: [ApiConfigService],
-    }),
+    }), */
     I18nModule.forRootAsync({
       useFactory: (configService: ApiConfigService) => ({
         fallbackLanguage: configService.fallbackLanguage,
