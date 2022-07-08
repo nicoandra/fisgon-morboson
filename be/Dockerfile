@@ -26,7 +26,7 @@ CMD ["/bin/sh", "-c", "while sleep 1000; do :; done"]
 
 
 
-FROM node:lts
+FROM node:lts AS prod
 
 ARG PORT=3000
 
