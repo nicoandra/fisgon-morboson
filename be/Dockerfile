@@ -9,7 +9,6 @@ RUN yarn build:prod
 
 FROM node:lts AS node_modules
 COPY package.json yarn.lock ./
-RUN npm i
 RUN yarn install --prod
 
 FROM node:lts AS dev
