@@ -19,6 +19,7 @@ services:
   ui:
     build:
       context: ./ui/.
+      target: dev
       dockerfile: 'Dockerfile'
     ports:
       - 3180:80
