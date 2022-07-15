@@ -79,11 +79,11 @@ export default function Navigator(props: DrawerProps) {
             </Link>
         </ListItem>
         <ListItem sx={{ ...item, ...itemCategory }}>
-          <ListItemIcon>
-          <Link to="/"><HomeIcon /></Link>
-          </ListItemIcon>
-          <ListItemText><Link to="/">Project Overview</Link></ListItemText>
-        </ListItem>
+            <Link to="/browse">
+                <ListItemIcon><HomeIcon /></ListItemIcon>
+                <ListItemText>Browser</ListItemText>
+            </Link>
+        </ListItem>        
         {categories.map(({ id, children }) => (
           <Box key={id} sx={{ bgcolor: '#101F33' }}>
             <ListItem sx={{ py: 2, px: 3 }}>

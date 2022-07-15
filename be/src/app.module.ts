@@ -16,6 +16,8 @@ import { ApiConfigService } from './shared/services/api-config.service';
 import { SharedModule } from './shared/shared.module';
 import { AppController } from './app.controller';
 import { CamerasModule } from './modules/cameras/cameras.module';
+import { StorageModule, DriverType, StorageService } from '@codebrew/nestjs-storage';
+import { FilesystemModule } from './modules/filesystem/filesystem.module'
 
 @Module({
   imports: [
@@ -54,6 +56,18 @@ import { CamerasModule } from './modules/cameras/cameras.module';
             }
 
     }}),
+    StorageModule.forRoot({
+        default: 'shots',
+        disks: {
+            shots: {
+            driver: DriverType.LOCAL,
+            config: {
+              root: path.join(__dirname, '..', 'public','shots'),
+            },
+          },
+        },
+      }),
+      FilesystemModule
   ],
   providers: [
     {

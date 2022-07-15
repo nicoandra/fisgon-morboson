@@ -43,15 +43,20 @@ export async function bootstrap(): Promise<NestExpressApplication> {
   // app.setGlobalPrefix('/api'); use api as global prefix if you don't have subdomain
   app.use(
     rateLimit({
-      windowMs: 15 * 60 * 1000, // 15 minutes
-      max: 200, // limit each IP to 100 requests per windowMs
+      windowMs: 15 * 1 * 1000, // 15 minutes
+      max: 2000, // limit each IP to 100 requests per windowMs
     }),
   );
   app.use(compression());
   app.use(morgan('combined'));
   app.enableVersioning();
 
-  app.useStaticAssets(path.join(__dirname, '..', 'public'));
+  app.useStaticAssets(path.join(__dirname, '..', 'public'), {
+    setHeaders: (res) => {
+        res.set('Access-Control-Allow-Origin', '*');
+        res.set('Cross-Origin-Resource-Policy', 'cross-origin');
+    }
+  });
   app.setBaseViewsDir(path.join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');  
 

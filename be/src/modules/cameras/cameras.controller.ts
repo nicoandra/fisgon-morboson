@@ -18,7 +18,7 @@ export class CamerasController {
     description: 'Get cameras list with their status',
     type: CameraConfigDto,
     isArray: true
-  })  
+  })
   root() : CameraConfigDto[] {
     return Object.values(this.camerasService.getStatus())
   }

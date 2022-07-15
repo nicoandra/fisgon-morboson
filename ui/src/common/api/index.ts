@@ -10,14 +10,10 @@ export type CameraConfigDto = {
     lastTimeSeen: string;
     failureCount: number;
 };
-export type FilesystemEntryDto = {
-    alias: string;
-    path: string;
-};
 export type FilesystemFolderContentsDto = {
-    parentPaths: FilesystemEntryDto[];
-    subfolders: FilesystemEntryDto[];
-    files: FilesystemEntryDto[];
+    parentPath: string;
+    subfolders: string[];
+    files: string[];
 };
 export type AxiosConfig = {
     paramsSerializer?: AxiosRequestConfig["paramsSerializer"];

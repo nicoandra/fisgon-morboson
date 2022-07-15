@@ -13,9 +13,10 @@ export class AppController {
     }
 
   @Get()
-  @ApiOkResponse({type: "application/json"})
   root() {
-    return { cameras: this.camerasService.getStatus(), mqtt:  this.mqttService}
+    return { 
+        cameras: this.camerasService.getStatus(), 
+    }
   }
 
 

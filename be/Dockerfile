@@ -14,6 +14,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY . /usr/src/app
 RUN yarn
+RUN npm install -g @nestjs/cli
 EXPOSE $PORT
 CMD ["/bin/sh", "-c", "while sleep 1000; do :; done"]
 

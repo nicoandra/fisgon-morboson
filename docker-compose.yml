@@ -32,7 +32,7 @@ services:
     image: openapitools/openapi-generator-cli
     volumes:
       - ./ui/src:/target
-    command: ["generate", "-i", "http://be:3000/documentation-json", '-g', 'javascript', '-o', '/target']
+    command: ["generate", "-i", "http://be:3000/documentation-json", '-g', 'javascript', '-o', '/target/api-client']
 
   redis:
     image: "redis:alpine"

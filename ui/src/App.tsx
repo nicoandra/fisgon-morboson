@@ -12,8 +12,9 @@ import Link from '@mui/material/Link';
 import Navigator from './Navigator';
 import Content from './Content';
 import Header from './Header';
+import Browser from './components/Browser'
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const queryClient = new QueryClient()
 
@@ -187,7 +188,7 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+      <Router>
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex', minHeight: '100vh' }}>
         <CssBaseline />
@@ -215,6 +216,8 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Content />} />
               <Route path="/status" element={<StatusBox />} />
+              <Route path="/browse" element={<Browser />} />
+              
             </Routes>
           
             
@@ -225,6 +228,6 @@ export default function App() {
         </Box>
       </Box>
     </ThemeProvider>
-    </BrowserRouter>
+    </Router>
     </QueryClientProvider>);
 }

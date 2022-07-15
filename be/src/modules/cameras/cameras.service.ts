@@ -8,13 +8,19 @@ import { MqttService } from 'nest-mqtt';
 import { mkdir, createWriteStream } from 'fs'
 import { AnnounceCameraNotificationDto} from './AnnounceCameraNotificationDto.dto'
 import {CameraConfigDto} from './dto/camera-config.dto'
+import { StorageService } from '@codebrew/nestjs-storage';
+import { FilesystemService } from './../filesystem/filesystem.service';
 
 @Injectable()
 export class CamerasService {
     knownCameras: Record<string, CameraConfigDto> = {}
     knownTimeouts: Record<string, NodeJS.Timer> = {}
 
-    constructor(private readonly httpService: HttpService, @Inject(MqttService) private readonly mqttService: MqttService) {}
+    constructor(
+        private readonly httpService: HttpService, 
+        @Inject(MqttService) private readonly mqttService: MqttService,
+        private storage: StorageService,
+        @Inject(FilesystemService) readonly filesystemService) {}
 
 
     @Subscribe('fisgon-morboson/+/announce')
@@ -24,8 +30,8 @@ export class CamerasService {
         const now = new Date()
         dto.alias = alias
         dto.ip = data.ip
-        dto.delayBetweenBursts = 1000 * 300
-        dto.shotsPerBurst = 5
+        dto.delayBetweenBursts = 1000 * 600
+        dto.shotsPerBurst = 2
         dto.delayBetweenShots = 1000 * 3
         dto.lastTimeSeen = now
         dto.failureCount = 0
@@ -112,10 +118,10 @@ export class CamerasService {
             uri, 
             { responseType: "stream", timeout: this.knownCameras[alias].delayBetweenBurstOnTimeout }
         ).then(async (response) => {
-            response.data.pipe(createWriteStream(photoPath))
+            // response.data.pipe(createWriteStream(photoPath))
+            await this.filesystemService.put(photoPath, response.data)
             return true
         }).catch((err) => {
-            console.log("AxiosErr", err)
             return false
         })
         
@@ -129,7 +135,8 @@ export class CamerasService {
         const hour = `0${now.getUTCHours()}`.slice(-2)
         const minute = `0${now.getUTCMinutes()}`.slice(-2)
         const seconds = `0${now.getUTCSeconds()}`.slice(-2)
-        return path.join(__dirname, '..', '..', 'public', 'shots', `${alias}`, year, month, day, `${year}${month}${day}T${hour}:${minute}:${seconds}.jpg`)
+        // return path.join(__dirname, '..', '..', 'public', 'shots', `${alias}`, year, month, day, `${year}${month}${day}T${hour}:${minute}:${seconds}.jpg`)
+        return path.join(`${alias}`, year, month, day, `${year}${month}${day}T${hour}:${minute}:${seconds}.jpg`)
 
     }
 
